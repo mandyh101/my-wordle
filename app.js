@@ -35,11 +35,20 @@ const keys = [
   '<<',
 ]
 
+//handles the click event on a key in the keyboard
+const handleClick = () => {
+  console.log('click')
+}
+
 //foreach key in the array, create a button tag
 keys.forEach((key) => {
   const buttonElement = document.createElement('button')
   //with each button created, give it the text content of the key
   buttonElement.textContent = key
+  //set the key of each button element as it's id
+  buttonElement.setAttribute('id', key)
+  //add an event listener to each button element
+  buttonElement.addEventListener('click', handleClick)
   //append buttonElement to the keyboard
   keyboard.append(buttonElement)
 })
