@@ -188,6 +188,16 @@ const showMessage = (message) => {
   setTimeout(() => messageDisplay.removeChild(messageElement), 2000)
 }
 
+//function that adds the colour to the key in the keyboard to show what letters have been
+const addColourToKey = (keyLetter, colour) => {
+  const key = document.getElementById(keyLetter)
+  key.classList.add(colour)
+}
+
+//flips the tile to reveal whether each letter was guessed correctly using colours
+//green is right letter, right place
+//yellow is right letter wrong place
+//grey is wrong letter
 const flipTile = () => {
   //get all the children element inside the parent row div
   const rowTiles = document.querySelector('#wordRow-' + currentRow).childNodes
@@ -198,15 +208,18 @@ const flipTile = () => {
     //set a timer so that each tile has some time to flip over and reveal the colour
     //then increment by the index so that they flip one by one not all at once
     setTimeout(() => {
-      //add a class to say that this tile has been flipped
+      //add a class to trigger the css flip animation on each tile as it's checked
       tile.classList.add('flip')
-      //work through colour logic
+      //work through colour logic and change the colour of the tile and the corresponding key in the keyboard accordingly
       if (dataLetter == wordle[index]) {
         tile.classList.add('green')
+        addColourToKey(dataLetter, 'green')
       } else if (wordle.includes(dataLetter)) {
         tile.classList.add('yellow')
+        addColourToKey(dataLetter, 'yellow')
       } else {
         tile.classList.add('grey')
+        addColourToKey(dataLetter, 'grey')
       }
     }, 500 * index)
   })
