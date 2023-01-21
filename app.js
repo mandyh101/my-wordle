@@ -2,6 +2,8 @@
 const wordle = 'SUPER'
 //set up for keyboard
 const keyboard = document.querySelector('.key-container')
+//SET UP FOR MESSAGE DISPLAY
+const messageDisplay = document.querySelector('.message-container')
 
 const keys = [
   'Q',
@@ -99,7 +101,7 @@ const handleClick = (key) => {
     return
   }
   if (key === 'Enter') {
-    console.log('Check the word in the row')
+    checkRow()
     console.log('row', wordRows)
     return
   }
@@ -141,7 +143,28 @@ const deleteLetter = () => {
     wordRows[currentRow][currentTile] = ''
     letter.setAttribute('data', '')
   } else {
-    //TODO turn this alert into a message on the screen
-    alert("Sorry you can't go back on an empty row!")
+    showMessage("Sorry you can't go back on an empty row!")
   }
+}
+
+//checks the row to see if any correct letters have been entered
+const checkRow = () => {
+  //get the current row and turn the array of letters in this row into a string
+  const guessedWord = wordRows[currentRow].join('')
+
+  if (currentTile === 5) {
+    console.log('the guess is ', guessedWord, 'and the word is', wordle)
+
+    //check if the guessedWord equals the wordle word
+    if (wordle === guessedWord) {
+      showMessage('Nice one – your word is correct!')
+    }
+  }
+}
+
+//function to display messages
+const showMessage = (message) => {
+  const messageElement = document.createElement('p')
+  messageElement.textContent = message
+  messageDisplay.append(messageElement)
 }
