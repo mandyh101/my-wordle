@@ -95,10 +95,12 @@ let currentTile = 0
 const handleClick = (key) => {
   if (key === '<<') {
     deleteLetter()
+    console.log('row', wordRows)
     return
   }
   if (key === 'Enter') {
     console.log('Check the word in the row')
+    console.log('row', wordRows)
     return
   }
   addLetter(key)
@@ -121,7 +123,7 @@ const addLetter = (key) => {
 
     //increment the tile number to move to the next tile in the row
     currentTile++
-    console.log(wordRows)
+    console.log('row', wordRows)
   }
 }
 //removes the most recently input letter letter
