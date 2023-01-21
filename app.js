@@ -124,7 +124,8 @@ const addLetter = (key) => {
     console.log(wordRows)
   }
 }
-
+//removes the most recently input letter letter
+//TODO allow the user to move through letters to delete any letter in the row
 const deleteLetter = () => {
   if (currentTile > 0) {
     //go back to the previous tile
@@ -138,6 +139,7 @@ const deleteLetter = () => {
     wordRows[currentRow][currentTile] = ''
     letter.setAttribute('data', '')
   } else {
+    //TODO turn this alert into a message on the screen
     alert("Sorry you can't go back on an empty row!")
   }
 }
