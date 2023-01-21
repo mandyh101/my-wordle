@@ -1,4 +1,4 @@
-//set up word for testing
+//SET UP WORD FOR TESTING
 const wordle = 'SUPER'
 //set up for keyboard
 const keyboard = document.querySelector('.key-container')
@@ -34,42 +34,6 @@ const keys = [
   '<<',
 ]
 
-let currentRow = 0
-let currentTile = 0
-
-//handles the click event on a key in the keyboard by calling the addLetter function on a click event
-const handleClick = (key) => {
-  if (key === '<<') {
-    console.log('delete letter')
-    return
-  }
-  if (key === 'Enter') {
-    console.log('Check the word in the row')
-    return
-  }
-  addLetter(key)
-}
-
-//function that takes the value of the key board key that is passed and adds that value as html content on the letter tile
-const addLetter = (key) => {
-  //when we add a letter
-  const letter = document.getElementById(
-    'wordRow-' + currentRow + '-tile-' + currentTile
-  )
-
-  //render the key value inside the letter element
-  letter.textContent = key
-
-  wordRows[currentRow][currentTile] = key
-
-  //set data atrribute to be used when colouring letters
-  letter.setAttribute('data', key)
-
-  //increment the tile number to move to the next tile in the row
-  currentTile++
-  console.log(wordRows)
-}
-
 //foreach key in the array, create a button tag
 keys.forEach((key) => {
   const buttonElement = document.createElement('button')
@@ -83,7 +47,7 @@ keys.forEach((key) => {
   keyboard.append(buttonElement)
 })
 
-//set up for the game tiles
+//SET UP FOR THE GAME TILES
 
 //create a variable for each tile using a html class selector
 const tileDisplay = document.querySelector('.tile-container')
@@ -121,3 +85,59 @@ wordRows.forEach((wordRow, wordRowIndex) => {
   //append each rowElement to the tileDisplay container
   tileDisplay.append(rowElement)
 })
+
+//SET UP GAME LOGIC AND FUNCTIONS
+
+let currentRow = 0
+let currentTile = 0
+
+//handles the click event on a key in the keyboard by calling the addLetter function on a click event
+const handleClick = (key) => {
+  if (key === '<<') {
+    deleteLetter()
+    return
+  }
+  if (key === 'Enter') {
+    console.log('Check the word in the row')
+    return
+  }
+  addLetter(key)
+}
+
+//function that takes the value of the key board key that is passed and adds that value as html content on the letter tile
+const addLetter = (key) => {
+  if (currentTile < 5 && currentRow < 6) {
+    const letter = document.getElementById(
+      'wordRow-' + currentRow + '-tile-' + currentTile
+    )
+
+    //render the key value inside the letter element
+    letter.textContent = key
+
+    wordRows[currentRow][currentTile] = key
+
+    //set data atrribute to be used when colouring letters
+    letter.setAttribute('data', key)
+
+    //increment the tile number to move to the next tile in the row
+    currentTile++
+    console.log(wordRows)
+  }
+}
+
+const deleteLetter = () => {
+  if (currentTile > 0) {
+    //go back to the previous tile
+    currentTile--
+    //get the letter by id
+    const letter = document.getElementById(
+      'wordRow-' + currentRow + '-tile-' + currentTile
+    )
+    //clear the letter value displayed in the tile and within the wordRow html
+    letter.textContent = ''
+    wordRows[currentRow][currentTile] = ''
+    letter.setAttribute('data', '')
+  } else {
+    alert("Sorry you can't go back on an empty row!")
+  }
+}
