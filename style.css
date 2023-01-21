@@ -27,6 +27,21 @@ body{
  margin-bottom: 30px;
 }
 
+.tile-container .tile {
+  width: 62px;
+  height: 62px;
+  border: 2px solid #3a3a3c;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2px;
+ }
+
+ .tile-container div {
+  display: flex;
+ }
+
 /* keyboard tiles are same width as title container for consistency but they wrap to create a keyboard shape */
 .key-container {
   width: 510px;
@@ -62,5 +77,4 @@ body{
 
 
 .message-container {
-  /*  */
-}
+  height: 30px;

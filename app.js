@@ -81,6 +81,7 @@ wordRows.forEach((wordRow, wordRowIndex) => {
       'id',
       'wordRow-' + wordRowIndex + '-tile-' + letterIndex
     )
+    letterElement.classList.add('tile')
     rowElement.append(letterElement)
   })
 
