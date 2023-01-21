@@ -1,3 +1,5 @@
+//set up word for testing
+const wordle = 'SUPER'
 //set up for keyboard
 const keyboard = document.querySelector('.key-container')
 
@@ -32,9 +34,22 @@ const keys = [
   '<<',
 ]
 
+let currentRow = 0
+let currentTile = 0
+
 //handles the click event on a key in the keyboard
-const handleClick = () => {
-  console.log('click')
+const handleClick = (key) => {
+  console.log('click', key)
+  addLetter(key)
+}
+
+//function that takes the value of the key board key that is passed and adds that value as html content on the letter tile
+const addLetter = (key) => {
+  //when we add a letter
+  const letter = document.getElementById(
+    'wordRow-' + currentRow + '-tile-' + currentTile
+  )
+  letter.textContent = key
 }
 
 //foreach key in the array, create a button tag
@@ -45,7 +60,7 @@ keys.forEach((key) => {
   //set the key of each button element as it's id
   buttonElement.setAttribute('id', key)
   //add an event listener to each button element
-  buttonElement.addEventListener('click', handleClick)
+  buttonElement.addEventListener('click', () => handleClick(key))
   //append buttonElement to the keyboard
   keyboard.append(buttonElement)
 })
