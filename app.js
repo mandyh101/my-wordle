@@ -37,9 +37,16 @@ const keys = [
 let currentRow = 0
 let currentTile = 0
 
-//handles the click event on a key in the keyboard
+//handles the click event on a key in the keyboard by calling the addLetter function on a click event
 const handleClick = (key) => {
-  console.log('click', key)
+  if (key === '<<') {
+    console.log('delete letter')
+    return
+  }
+  if (key === 'Enter') {
+    console.log('Check the word in the row')
+    return
+  }
   addLetter(key)
 }
 
@@ -49,7 +56,18 @@ const addLetter = (key) => {
   const letter = document.getElementById(
     'wordRow-' + currentRow + '-tile-' + currentTile
   )
+
+  //render the key value inside the letter element
   letter.textContent = key
+
+  wordRows[currentRow][currentTile] = key
+
+  //set data atrribute to be used when colouring letters
+  letter.setAttribute('data', key)
+
+  //increment the tile number to move to the next tile in the row
+  currentTile++
+  console.log(wordRows)
 }
 
 //foreach key in the array, create a button tag
