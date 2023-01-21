@@ -152,19 +152,62 @@ const checkRow = () => {
   //get the current row and turn the array of letters in this row into a string
   const guessedWord = wordRows[currentRow].join('')
 
-  if (currentTile === 5) {
-    console.log('the guess is ', guessedWord, 'and the word is', wordle)
-
-    //check if the guessedWord equals the wordle word
+  //if the user is at the last tile, check to see if game is over or if they need to guess again
+  if (currentTile > 4) {
+    //check the letters in the row
+    flipTile()
+    //if the guessedWord equals the wordle word, end the game
     if (wordle === guessedWord) {
-      showMessage('Nice one – your word is correct!')
+      showMessage('Nice one – you got the correct word!')
+      isGameOver = true
+      return
+    }
+    //if the guess is incorrect and user no more guesses, end the game and share the worlde
+    else if (currentRow >= 5) {
+      isGameOver = true
+      showMessage(
+        `Sorry, you have no more guesses! The correct word was ${wordle}`
+      )
+      return
+    }
+    //if the user has more guesses left, move to the first tile on the next row
+    else if (currentRow < 5) {
+      isGameOver = false
+      currentRow++
+      currentTile = 0
     }
   }
 }
 
-//function to display messages
+//function to display messages on page
 const showMessage = (message) => {
+  console.log(message)
   const messageElement = document.createElement('p')
   messageElement.textContent = message
   messageDisplay.append(messageElement)
+  setTimeout(() => messageDisplay.removeChild(messageElement), 2000)
+}
+
+const flipTile = () => {
+  //get all the children element inside the parent row div
+  const rowTiles = document.querySelector('#wordRow-' + currentRow).childNodes
+  //get the data inside each tile to determine what colours to use
+  rowTiles.forEach((tile, index) => {
+    const dataLetter = tile.getAttribute('data')
+
+    //set a timer so that each tile has some time to flip over and reveal the colour
+    //then increment by the index so that they flip one by one not all at once
+    setTimeout(() => {
+      //add a class to say that this tile has been flipped
+      tile.classList.add('flip')
+      //work through colour logic
+      if (dataLetter == wordle[index]) {
+        tile.classList.add('green')
+      } else if (wordle.includes(dataLetter)) {
+        tile.classList.add('yellow')
+      } else {
+        tile.classList.add('grey')
+      }
+    }, 500 * index)
+  })
 }
