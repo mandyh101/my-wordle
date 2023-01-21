@@ -1,6 +1,3 @@
-//create a variable for each tile using a html class selector
-const tileDisplay = document.querySelector('.tile-container')
-
 //set up for keyboard
 const keyboard = document.querySelector('.key-container')
 
@@ -51,4 +48,42 @@ keys.forEach((key) => {
   buttonElement.addEventListener('click', handleClick)
   //append buttonElement to the keyboard
   keyboard.append(buttonElement)
+})
+
+//set up for the game tiles
+
+//create a variable for each tile using a html class selector
+const tileDisplay = document.querySelector('.tile-container')
+
+//set up an array of 5 empty strings to represent each row on the gamebaord where the user will input a word as their guess
+const wordRows = [
+  ['', '', '', '', ''],
+  ['', '', '', '', ''],
+  ['', '', '', '', ''],
+  ['', '', '', '', ''],
+  ['', '', '', '', ''],
+  ['', '', '', '', ''],
+]
+
+//loop through the wordRows, getting each guessrow and its index
+wordRows.forEach((wordRow, wordRowIndex) => {
+  //create a div to conatin each row
+  const rowElement = document.createElement('div')
+  //give each wordRow an did based on its index in the array
+  rowElement.setAttribute('id', 'wordRow-' + wordRowIndex)
+
+  //now put five tiles inside each of wordRow
+  wordRow.forEach((letter, letterIndex) => {
+    //create a div to contain each letter tile in a word row
+    const letterElement = document.createElement('div')
+    //set the id for each letter tile
+    letterElement.setAttribute(
+      'id',
+      'wordRow-' + wordRowIndex + '-tile-' + letterIndex
+    )
+    rowElement.append(letterElement)
+  })
+
+  //append each rowElement to the tileDisplay container
+  tileDisplay.append(rowElement)
 })
