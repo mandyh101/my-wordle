@@ -1,5 +1,20 @@
 //SET UP WORD FOR TESTING
-const wordle = 'SUPER'
+const wordle = ''
+
+const getWordle = () => {
+  fetch('https://localhost.8000/word')
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json)
+      wordle = json.toUpperCase()
+    })
+    .catch((err) => console.log(err))
+}
+
+//TODO add this to a start/try again click handler
+//call the function to start the game
+getWordle()
+
 //set up for keyboard
 const keyboard = document.querySelector('.key-container')
 //SET UP FOR MESSAGE DISPLAY
