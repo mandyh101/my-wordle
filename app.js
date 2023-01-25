@@ -1,8 +1,8 @@
 //SET UP WORD FOR TESTING
-const wordle = ''
+let wordle = ''
 
 const getWordle = () => {
-  fetch('https://localhost.8000/word')
+  fetch('http://localhost:8000/word')
     .then((response) => response.json())
     .then((json) => {
       console.log(json)
