@@ -1,6 +1,7 @@
 //SET UP WORD FOR TESTING
 let wordle = ''
 
+//TODO set up names route so people cant visit this URL to see the word
 const getWordle = () => {
   fetch('http://localhost:8000/word')
     .then((response) => response.json())
