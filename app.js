@@ -222,7 +222,7 @@ const flipTile = () => {
 
   //if a guessed letter exists in the wordle but in a different place,
   //update the colour and remove the letter from the checkWordle
-  guess.forEach((guess) => {
+  guessedWord.forEach((guess) => {
     if (checkWordle.includes(guess.letter)) {
       guess.color = 'yellow'
       checkWordle = checkWordle.replace(guess.letter, '')
@@ -235,8 +235,8 @@ const flipTile = () => {
   rowTiles.forEach((tile, index) => {
     setTimeout(() => {
       tile.classList.add('flip')
-      tile.classList.add(guess[index].color)
-      addColourToKey(guess[index].letter)
+      tile.classList.add(guessedWord[index].color)
+      addColourToKey(guessedWord[index].letter)
     }, 500 * index)
   })
 }
