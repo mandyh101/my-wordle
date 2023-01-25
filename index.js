@@ -3,12 +3,16 @@ const PORT = 8000
 const axios = require('axios')
 
 require('dotenv').config()
-// console.log(process.env)
+
+//import CORS package
+const cors = require('cors')
 
 //import express
 const express = require('express')
 //initialise express to the app
 const app = express()
+
+app.use(cors()) //call the cors package to remove cors errors
 //set up route
 app.get('/word', (req, res) => {
   const options = {
@@ -24,7 +28,6 @@ app.get('/word', (req, res) => {
   axios
     .request(options)
     .then((response) => {
-      console.log(response.data)
       res.json(response.data[0])
     })
     .catch((error) => {
