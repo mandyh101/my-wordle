@@ -201,26 +201,42 @@ const addColourToKey = (keyLetter, colour) => {
 const flipTile = () => {
   //get all the children element inside the parent row div
   const rowTiles = document.querySelector('#wordRow-' + currentRow).childNodes
-  //get the data inside each tile to determine what colours to use
-  rowTiles.forEach((tile, index) => {
-    const dataLetter = tile.getAttribute('data')
 
-    //set a timer so that each tile has some time to flip over and reveal the colour
-    //then increment by the index so that they flip one by one not all at once
+  //assign a variable that can be used to check and remove letters from the wordle word based on th eplayer's guesses
+  let checkWordle = wordle
+  const guessedWord = []
+
+  //push each letter from the entered wordRow into the empty guess array
+  rowTiles.forEach((tile) => {
+    guessedWord.push({ letter: tile.getAttribute('data'), color: 'grey' })
+  })
+
+  //check if the letters in the guessed word are an exact match. Everytime a letter is matched it's removed from the checkWordle variable
+  //update the tile colour and replace the matched letter in the checkWordle variable with an empty array
+  guessedWord.forEach((guess, index) => {
+    if (guess.letter === wordle[index]) {
+      guess.color = 'green'
+      checkWordle = checkWordle.replace(guess.letter, '')
+    }
+  })
+
+  //if a guessed letter exists in the wordle but in a different place,
+  //update the colour and remove the letter from the checkWordle
+  guess.forEach((guess) => {
+    if (checkWordle.includes(guess.letter)) {
+      guess.color = 'yellow'
+      checkWordle = checkWordle.replace(guess.letter, '')
+    }
+  })
+
+  //for each game tile in the row, add the colour class that matches the color of the guess letter at the same index
+  //add a class to trigger the css flip animation on each tile as it's checked
+  //add the colour class to the keybaord key too
+  rowTiles.forEach((tile, index) => {
     setTimeout(() => {
-      //add a class to trigger the css flip animation on each tile as it's checked
       tile.classList.add('flip')
-      //work through colour logic and change the colour of the tile and the corresponding key in the keyboard accordingly
-      if (dataLetter == wordle[index]) {
-        tile.classList.add('green')
-        addColourToKey(dataLetter, 'green')
-      } else if (wordle.includes(dataLetter)) {
-        tile.classList.add('yellow')
-        addColourToKey(dataLetter, 'yellow')
-      } else {
-        tile.classList.add('grey')
-        addColourToKey(dataLetter, 'grey')
-      }
+      tile.classList.add(guess[index].color)
+      addColourToKey(guess[index].letter)
     }, 500 * index)
   })
 }
