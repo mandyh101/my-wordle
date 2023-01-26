@@ -1,19 +1,20 @@
 //SET UP WORD FOR TESTING
-let wordle = ''
+let wordle = 'SUPER'
 
-//TODO set up names route so people cant visit this URL to see the word
-const getWordle = () => {
-  fetch('http://localhost:8000/word')
-    .then((response) => response.json())
-    .then((json) => {
-      console.log(json)
-      wordle = json.toUpperCase()
-    })
-    .catch((err) => console.log(err))
-}
-//TODO add this to a start/try again click handler
-//call the function to start the game
-getWordle()
+//comment out fetch code for testing
+// //TODO set up names route so people cant visit this URL to see the word
+// const getWordle = () => {
+//   fetch('http://localhost:8000/word')
+//     .then((response) => response.json())
+//     .then((json) => {
+//       console.log(json)
+//       wordle = json.toUpperCase()
+//     })
+//     .catch((err) => console.log(err))
+// }
+// //TODO add this to a start/try again click handler
+// //call the function to start the game
+// getWordle()
 
 //WIP hit API endpoint with guessed word to check it is a real word
 const checkWordExists = (word) => {
@@ -121,7 +122,7 @@ const handleClick = (key) => {
     return
   }
   if (key === 'Enter') {
-    checkRow()
+    checkForWin()
     console.log('row', wordRows)
     return
   }
@@ -168,8 +169,8 @@ const deleteLetter = () => {
 }
 
 //checks the row to see if any correct letters have been entered
-const checkRow = () => {
-  //get the current row and turn the array of letters in this row into a string
+const checkForWin = () => {
+  //get the current row and turn the array of letters in this row into a string to check
   const guessedWord = wordRows[currentRow].join('')
 
   //if the user is at the last tile, check to see if game is over or if they need to guess again
@@ -196,6 +197,11 @@ const checkRow = () => {
       currentRow++
       currentTile = 0
     }
+  }
+  //if isGameOver = true
+  //for each game tile, remove the text content but leave the colour
+  //for each keyboard tile, clear the colour class
+  if (isGameOver) {
   }
 }
 
