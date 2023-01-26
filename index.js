@@ -37,7 +37,7 @@ app.get('/word', (req, res) => {
 })
 
 //route to check a word is legit
-app.get('./check/{wordle}', (req, res) => {
+app.get('./check/{entry}', (req, res) => {
   const options = {
     method: 'GET',
     url: 'https://twinword-word-graph-dictionary.p.rapidapi.com/association/',

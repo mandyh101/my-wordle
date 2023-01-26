@@ -11,10 +11,14 @@ const getWordle = () => {
     })
     .catch((err) => console.log(err))
 }
-
 //TODO add this to a start/try again click handler
 //call the function to start the game
 getWordle()
+
+//WIP hit API endpoint with guessed word to check it is a real word
+const checkWordExists = (word) => {
+  fetch('http://localhost:8000/check/')
+}
 
 //set up for keyboard
 const keyboard = document.querySelector('.key-container')
