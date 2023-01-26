@@ -13,7 +13,8 @@ const express = require('express')
 const app = express()
 
 app.use(cors()) //call the cors package to remove cors errors
-//set up route
+
+//route to GET a word
 app.get('/word', (req, res) => {
   const options = {
     method: 'GET',
@@ -29,6 +30,28 @@ app.get('/word', (req, res) => {
     .request(options)
     .then((response) => {
       res.json(response.data[0])
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+})
+
+//route to check a word is legit
+app.get('./check/{wordle}', (req, res) => {
+  const options = {
+    method: 'GET',
+    url: 'https://twinword-word-graph-dictionary.p.rapidapi.com/association/',
+    params: { entry: wordle },
+    headers: {
+      'X-RapidAPI-Key': process.env.X_RAPIDAPI_KEY,
+      'X-RapidAPI-Host': 'twinword-word-graph-dictionary.p.rapidapi.com',
+    },
+  }
+
+  axios
+    .request(options)
+    .then((response) => {
+      console.log(response.data)
     })
     .catch((error) => {
       console.error(error)
