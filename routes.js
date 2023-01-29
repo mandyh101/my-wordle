@@ -1,4 +1,4 @@
-import express from 'express'
+const express = require('express')
 const router = express.Router()
 const axios = require('axios')
 require('dotenv').config()
@@ -28,14 +28,13 @@ router.get('/word', (req, res) => {
 })
 
 //route to check a word is legit
-router.get('./check/:word', (req, res) => {
+router.get('/check', (req, res) => {
   //get the params
-  const entry = req.params.word
-
+  const word = req.query.word
   const options = {
     method: 'GET',
     url: 'https://twinword-word-graph-dictionary.p.rapidapi.com/association/',
-    params: { entry: entry },
+    params: { entry: word },
     headers: {
       'X-RapidAPI-Key': process.env.X_RAPIDAPI_KEY,
       'X-RapidAPI-Host': 'twinword-word-graph-dictionary.p.rapidapi.com',
@@ -46,6 +45,7 @@ router.get('./check/:word', (req, res) => {
     .request(options)
     .then((response) => {
       console.log(response.data)
+      res.json(response.data)
     })
     .catch((error) => {
       console.error(error)
