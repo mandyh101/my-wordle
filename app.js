@@ -1,24 +1,57 @@
 //SET UP WORD FOR TESTING
-let wordle = 'SUPER'
+let wordle = ''
 
-//comment out fetch code for testing
-// //TODO set up names route so people cant visit this URL to see the word
-// const getWordle = () => {
-//   fetch('http://localhost:8000/word')
-//     .then((response) => response.json())
-//     .then((json) => {
-//       console.log(json)
-//       wordle = json.toUpperCase()
-//     })
-//     .catch((err) => console.log(err))
-// }
-// //TODO add this to a start/try again click handler
-// //call the function to start the game
-// getWordle()
+//TODO set up names route so people cant visit this URL to see the word
+const getWordle = () => {
+  fetch('http://localhost:8000/word')
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json)
+      wordle = json.toUpperCase()
+    })
+    .catch((err) => console.log(err))
+}
+//TODO add this to a start/try again click handler
+//call the function to start the game
+getWordle()
 
 //WIP hit API endpoint with guessed word to check it is a real word
-const checkWordExists = (word) => {
-  fetch('http://localhost:8000/check/')
+const checkWordExists = (guessedWord) => {
+  word = guessedWord.toLowerCase()
+  console.log(word)
+  fetch(`http://localhost:8000/check/?word=${word}`)
+    .then((response) => response.json())
+    .then((json) => {
+      if (json.result_code === '462') {
+        showMessage(`${json.result_msg}. Please check your word and try again.`)
+        return
+      } else {
+        flipTile()
+        //if the guessedWord equals the wordle word, end the game
+        if (wordle === guessedWord) {
+          showMessage('Nice one – you got the correct word!')
+          endGame(true)
+          return
+        }
+        //if the guess is incorrect and user no more guesses, end the game and share the worlde
+        else if (currentRow >= 5) {
+          endGame(true)
+          showMessage(
+            `Sorry, you have no more guesses! The correct word was ${wordle}`
+          )
+          return
+        }
+        //if the user has more guesses left, move to the first tile on the next row
+        else if (currentRow < 5) {
+          endGame(false)
+          currentRow++
+          currentTile = 0
+        }
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
 //set up for keyboard
@@ -175,33 +208,23 @@ const checkForWin = () => {
 
   //if the user is at the last tile, check to see if game is over or if they need to guess again
   if (currentTile > 4) {
-    //check the letters in the row
-    flipTile()
-    //if the guessedWord equals the wordle word, end the game
-    if (wordle === guessedWord) {
-      showMessage('Nice one – you got the correct word!')
-      isGameOver = true
-      return
-    }
-    //if the guess is incorrect and user no more guesses, end the game and share the worlde
-    else if (currentRow >= 5) {
-      isGameOver = true
-      showMessage(
-        `Sorry, you have no more guesses! The correct word was ${wordle}`
-      )
-      return
-    }
-    //if the user has more guesses left, move to the first tile on the next row
-    else if (currentRow < 5) {
-      isGameOver = false
-      currentRow++
-      currentTile = 0
-    }
+    //check the word is a real word
+    checkWordExists(guessedWord)
   }
+  //TODO extract into endGame function?
   //if isGameOver = true
   //for each game tile, remove the text content but leave the colour
   //for each keyboard tile, clear the colour class
-  if (isGameOver) {
+}
+
+const endGame = (boolean) => {
+  console.log('endGame = ', boolean)
+  if (boolean === true) {
+    wordRows.forEach((wordRow) => {
+      wordRow.forEach((letter) => (letter.textContent = ''))
+    })
+  } else {
+    return
   }
 }
 
