@@ -44,7 +44,6 @@ router.get('/check', (req, res) => {
   axios
     .request(options)
     .then((response) => {
-      console.log(response.data)
       res.json(response.data)
     })
     .catch((error) => {
